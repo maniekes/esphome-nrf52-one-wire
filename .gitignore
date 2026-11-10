@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.esphome/
+.platformio/
+.venv/
+.cache/
+secrets.yaml
+.env
+*.uf2
+*.bin
+*.elf
+*.log

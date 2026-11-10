@@ -1,0 +1,40 @@
+# Example only: verify the board profile/bootloader and Nordic pin labels.
+esphome:
+  name: nrf52-two-probes
+
+nrf52:
+  board: adafruit_itsybitsy_nrf52840
+  bootloader: adafruit_nrf52_sd140_v6
+  framework:
+    version: 2.9.2
+    libc_nano: false
+
+logger:
+  hardware_uart: USB_CDC
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/maniekes/esphome-nrf52-one-wire
+      ref: main
+    components: [nrf52_one_wire]
+
+one_wire:
+  - platform: nrf52_one_wire
+    id: bus_a
+    pin: P0.29
+    internal_pullup: true
+  - platform: nrf52_one_wire
+    id: bus_b
+    pin: P0.31
+    internal_pullup: true
+
+sensor:
+  - platform: dallas_temp
+    name: "Probe A"
+    one_wire_id: bus_a
+    update_interval: 10s
+  - platform: dallas_temp
+    name: "Probe B"
+    one_wire_id: bus_b
+    update_interval: 10s

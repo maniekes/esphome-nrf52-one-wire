@@ -1,0 +1,18 @@
+name: Native tests
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Native C++20 scenarios
+        run: bash tests/run.sh
+      - name: Address and undefined-behavior sanitizers
+        run: bash tests/run.sh -fsanitize=address,undefined -fno-omit-frame-pointer
+      - name: Python syntax
+        run: python3 -c "import ast,pathlib; [ast.parse(p.read_text()) for p in pathlib.Path('components').rglob('*.py')]"
